@@ -19,14 +19,25 @@ require_once 'models/GuestModel.php';
  */
 function processAction($smarty, $dbn, $params)
 {
-/*    if ($_POST) {
-        $data = json_decode($_POST);
-        d($data, 0);
-    }
-    $data = json_decode($_POST);
-    d($data, 0);*/
+    //TODO
+    // добавить проверку на существование лайка для такой страницы
+    $arrVote = [
+        'client_id' => $_POST['client_id'],
+        'site_name' => $_POST['site_name'],
+        'page_title' => $_POST['page_title'],
+    ];
 
-    $data = $_POST;
-    $k['qnt'] = 1;
+    $id = addNewLike($dbn, $arrVote);
+
+    $arrUser = [
+        'ip' => $_POST['ip'],
+        'post' => $_POST['post'],
+        'city' => $_POST['city'],
+        'country' => $_POST['country'],
+        'like_id' => $id,
+    ];
+    addNewVoteUser($dbn, $arrUser);
+
+    $k['qnt'] = getQuantityByLikeId($dbn, $id);
     echo json_encode($k);
 }

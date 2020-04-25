@@ -7,7 +7,7 @@
     </section>
     <section class="row">
         <div class="col-xs-12">
-            <a href="" onclick="dataPrepare(13); return false;">Like</a><span id="likeCnt"></span>
+            <a href="" onclick="dataPrepare(4); return false;">Like</a><span id="likeCnt"></span>
         </div>
     </section>
 </main>
