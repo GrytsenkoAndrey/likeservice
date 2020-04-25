@@ -17,8 +17,10 @@ require_once 'library/functions.php';
 $arrCAP = defineCAP();
 # check user auth
 if (!isset($_SESSION['userId'])) {
-    $arrCAP['controller'] = 'user';
-    $arrCAP['action'] = 'login';
+    if ($arrCAP['action'] != 'reg') {
+        $arrCAP['controller'] = 'user';
+        $arrCAP['action'] = 'login';
+    }
 }
 # page
 loadPage($smarty, $dbn, $arrCAP['controller'], $arrCAP['action'], $arrCAP['params']);

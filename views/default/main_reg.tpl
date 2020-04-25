@@ -2,22 +2,8 @@
     <section class="row">
         <div class="col-xs-12">
             {$infoMsg}
-            <p onclick="dataPrepare()">Show page title</p>
-            <form id="loginForm" method="POST" action="/login/">
-                <div class="form-group">
-                    <label for="email">Email (login)</label>
-                    <input type="email" class="form-control" id="email" name="email">
-                </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" class="form-control" id="password" name="password">
-                </div>
-                <button type="submit" class="btn btn-primary">Login</button>
-                <p id="regRequest" onclick="showRegisterForm();">Show Register form</p>
-            </form>
-
             <!-- написание стилей вложением есть дурной тон, но в данном случае для теста -->
-            <form id="registerForm" style="display:none;" method="POST" action="/reg/">
+            <form id="registerForm" method="POST" action="/user/reg/">
                 <div class="form-group">
                     <label for="regemail">Email (login)</label>
                     <input type="email" class="form-control" id="regemail" name="regemail" required>
@@ -35,8 +21,8 @@
                     <label for="age">Your age</label>
                     <input type="text" class="form-control" id="age" name="age" required>
                 </div>
-                <button type="submit" class="btn btn-primary">Login</button>
-                <p id="regLogin" onclick="showLoginForm();">Show Login form</p>
+                <input type="submit" class="btn btn-primary" name="subr" value="Register">
+                <a href="/user/login/">Show Login form</a>
             </form>
 
 

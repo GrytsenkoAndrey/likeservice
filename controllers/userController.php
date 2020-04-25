@@ -18,16 +18,14 @@ require_once 'models/UserModel.php';
 function loginAction($smarty, $dbn, $params)
 {
     $infoMsg = !empty($_SESSION['infoMsg']) ? $_SESSION['infoMsg'] : '';
-    $activeUser = !empty($_SESSION['userId']) ? $_SESSION['userName'] : 'no user';
 
-    if ($_POST) {
+    if ($_POST && isset($_POST['sub'])) {
         # clear info
         $_SESSION['infoMsg'] = '';
         # clear data
         $data = clearData($_POST);
 
         if (login($dbn, $data)) {
-            $_SESSION['infoMsg'] = "<div class='alert alert-success'>Привет " . $activeUser . "</div>";
             header("Location: /user/profile/");
             exit();
         } else {
@@ -39,10 +37,11 @@ function loginAction($smarty, $dbn, $params)
         $smarty->assign('pageTitle', 'Авторизация/Регистрация');
         $smarty->assign('templateWebPath', TEMPLATE_WEB_PATH);
         $smarty->assign('infoMsg', $infoMsg);
-        $smarty->assign('activeUser', $activeUser);
         loadTemplate($smarty, 'head');
-        loadTemplate($smarty, 'main_authreg');
+        loadTemplate($smarty, 'main_login');
         loadTemplate($smarty, 'footer');
+
+        $_SESSION['infoMsg'] = '';
     }
 }
 
@@ -70,7 +69,7 @@ function regAction($smarty, $dbn, $params)
             exit();
         } else {
             $_SESSION['infoMsg'] = "<div class='alert alert-danger'>Некорректные данные</div>";
-            header("Location: /user/login/");
+            header("Location: /user/reg/");
             exit();
         }
     } else {
@@ -79,8 +78,10 @@ function regAction($smarty, $dbn, $params)
         $smarty->assign('infoMsg', $infoMsg);
         $smarty->assign('activeUser', $activeUser);
         loadTemplate($smarty, 'head');
-        loadTemplate($smarty, 'main_authreg');
+        loadTemplate($smarty, 'main_reg');
         loadTemplate($smarty, 'footer');
+
+        $_SESSION['infoMsg'] = '';
     }
 }
 
@@ -105,8 +106,28 @@ function profileAction($smarty, $dbn, $params)
         $smarty->assign('templateWebPath', TEMPLATE_WEB_PATH);
         $smarty->assign('infoMsg', $infoMsg);
         $smarty->assign('activeUser', $activeUser);
+        $smarty->assign('role', $_SESSION['role']);
         loadTemplate($smarty, 'head');
         loadTemplate($smarty, 'profile');
         loadTemplate($smarty, 'footer');
+
+        $_SESSION['infoMsg'] = '';
     }
+}
+
+/**
+ * профиль клиентв
+ *
+ * @param object $smarty
+ * @param resource $dbn
+ * @param array $params
+ */
+function logoutAction($smarty, $dbn, $params)
+{
+    $infoMsg = !empty($_SESSION['infoMsg']) ? $_SESSION['infoMsg'] : '';
+    $activeUser = !empty($_SESSION['userId']) ? $_SESSION['userName'] : 'no user';
+
+    logout();
+    header("Location: /user/login/");
+    exit();
 }
