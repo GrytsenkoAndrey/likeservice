@@ -16,7 +16,7 @@ require_once 'library/functions.php';
 # controller - action - parameters
 $arrCAP = defineCAP();
 # check user auth
-if (!isset($_SESSION['user_id'])) {
+if (!isset($_SESSION['userId'])) {
     $arrCAP['controller'] = 'user';
     $arrCAP['action'] = 'login';
 }

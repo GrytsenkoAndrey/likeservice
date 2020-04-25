@@ -32,7 +32,7 @@ function defineCAP(): array
     $aURI = parseUri();
     # output array
     $aOUT = [];
-    $aOUT['controller'] = !empty($aURI[0]) ? trim(strip_tags($aURI[0])) : 'orders';
+    $aOUT['controller'] = !empty($aURI[0]) ? trim(strip_tags($aURI[0])) : 'user';
     $aOUT['action'] = !empty($aURI[1]) ? trim(strip_tags($aURI[1])) : 'index';
     // если количество элементов четное
     if (count($aURI) % 2 == 0 && count($aURI) > 2) {
@@ -98,4 +98,26 @@ function d($value = null, int $die = 1)
     echo '</pre>';
 
     if ($die): die(); endif;
+}
+
+/**
+ * очистка входных данных
+ * @param - array - исходный массив
+ * @return - array - массив после обработки
+ */
+function clearData(array $data): array
+{
+    $arr = [];
+    if (is_array($data)) {
+        foreach($data as $k => $v) {
+            if (is_array($v)) {
+                clearData($v);
+            } else {
+                $arr[$k] = trim(strip_tags($v));
+            }
+        }
+        return $arr;
+    } else {
+        trigger_error('Input parameter has to be an array!');
+    }
 }

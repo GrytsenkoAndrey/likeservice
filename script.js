@@ -24,6 +24,25 @@ function showLoginForm()
 }
 
 /**
+ * сравниваем пароль при добавлении нового пользователя
+ */
+function comparePass()
+{
+    var p1 = document.getElementById('regpassword1');
+    var p2 = document.getElementById('regpassword2');
+
+    if ( (p1.value.length > 0) && (p2.value.length > 0) ) {
+        if (p1.value != p2.value) {
+            $('#info').show();
+        } else {
+            $('#info').hide();
+        };
+    };
+
+}
+
+
+/**
  * сбор данных о пользователе и странице
  *
  */
@@ -41,7 +60,6 @@ function dataPrepare()
     });
 
 }
-
 /*
 $.ajax({
     url:'http://freegeoip.net/json/'
