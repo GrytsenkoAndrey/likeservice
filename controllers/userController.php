@@ -27,11 +27,11 @@ function loginAction($smarty, $dbn, $params)
         $data = clearData($_POST);
 
         if (login($dbn, $data)) {
-            $_SESSION['infoMsg'] = "<div class='alert alert-success>Привет " . $activeUser . "</div>";
+            $_SESSION['infoMsg'] = "<div class='alert alert-success'>Привет " . $activeUser . "</div>";
             header("Location: /user/profile/");
             exit();
         } else {
-            $_SESSION['infoMsg'] = "<div class='alert alert-danger>Некорректные данные</div>";
+            $_SESSION['infoMsg'] = "<div class='alert alert-danger'>Некорректные данные</div>";
             header("Location: /user/login/");
             exit();
         }
@@ -65,11 +65,11 @@ function regAction($smarty, $dbn, $params)
         $data = clearData($_POST);
 
         if (registration($dbn, $data)) {
-            $_SESSION['infoMsg'] = "<div class='alert alert-success>Привет " . $activeUser . ", Вы успешно прошли регистрацию</div>";
+            $_SESSION['infoMsg'] = "<div class='alert alert-success'>Привет " . $activeUser . ", Вы успешно прошли регистрацию</div>";
             header("Location: /user/profile/");
             exit();
         } else {
-            $_SESSION['infoMsg'] = "<div class='alert alert-danger>Некорректные данные</div>";
+            $_SESSION['infoMsg'] = "<div class='alert alert-danger'>Некорректные данные</div>";
             header("Location: /user/login/");
             exit();
         }
@@ -97,7 +97,7 @@ function profileAction($smarty, $dbn, $params)
     $activeUser = !empty($_SESSION['userId']) ? $_SESSION['userName'] : 'no user';
 
     if ($activeUser == 'no user') {
-        $_SESSION['infoMsg'] = "<div class='alert alert-danger>Авторизуйтесь</div>";
+        $_SESSION['infoMsg'] = "<div class='alert alert-danger'>Авторизуйтесь</div>";
         header("Location: /user/login/");
         exit();
     } else {
