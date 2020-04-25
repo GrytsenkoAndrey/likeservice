@@ -192,3 +192,35 @@ function editAction($smarty, $dbn, $params)
 
     }
 }
+
+/**
+ * тестовая страница для отправки Like
+ *
+ * @param object $smarty
+ * @param resource $dbn
+ * @param array $params
+ */
+function testAction($smarty, $dbn, $params)
+{
+    $infoMsg = !empty($_SESSION['infoMsg']) ? $_SESSION['infoMsg'] : '';
+    $activeUser = !empty($_SESSION['userId']) ? $_SESSION['userName'] : 'no user';
+
+    if ($activeUser == 'no user') {
+        $_SESSION['infoMsg'] = "<div class='alert alert-danger'>Авторизуйтесь</div>";
+        header("Location: /user/login/");
+        exit();
+    } else {
+
+
+        $smarty->assign('pageTitle', 'Страница теста Like');
+        $smarty->assign('templateWebPath', TEMPLATE_WEB_PATH);
+        $smarty->assign('infoMsg', $infoMsg);
+        $smarty->assign('activeUser', $activeUser);
+        $smarty->assign('role', $_SESSION['role']);
+        loadTemplate($smarty, 'head');
+        loadTemplate($smarty, 'test');
+        loadTemplate($smarty, 'footer');
+
+        $_SESSION['infoMsg'] = '';
+    }
+}

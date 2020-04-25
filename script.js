@@ -44,19 +44,43 @@ function comparePass()
  * сбор данных о пользователе и странице
  *
  */
-function dataPrepare()
+function dataPrepare(client_id)
 {
     // page address
     var pageUrl = String(window.location);
     // page title
     var pageTitle = document.getElementsByTagName('title');
-
-    console.log(pageTitle[0].innerHTML);
+    // client id
+    var clientId = client_id;
+    // result
+    var resData = {};
+    resData['site_name'] = pageUrl;
+    resData['page_title'] = pageTitle[0].innerHTML;
+    resData['client_id'] = clientId;
 
     $.getJSON('https://ipinfo.io', function(data){
-        console.log(data)
+        //console.log(data)
+        resData['ip'] = data['ip'];
+        resData['city'] = data['city'];
+        resData['country'] = data['country'];
+        resData['post'] = data['postal'];
     });
 
+    console.log(resData);
+
+    $.ajax({
+        type:'POST',
+        async:true,
+        url:'/like/process/',
+        data:resData,
+        dataType:'json',
+        success: function(data) {
+            console.log(data);
+        },
+        error: function() {
+            console.log('error');
+        }
+    })
 }
 /*
 $.ajax({
