@@ -102,11 +102,19 @@ function profileAction($smarty, $dbn, $params)
         header("Location: /user/login/");
         exit();
     } else {
+
+        if ($_SESSION['role'] == 'Administrator') {
+            $rsData = selAllUsers($dbn);
+        } else {
+            //TODO select data about likes
+            $rsData = [];
+        }
         $smarty->assign('pageTitle', 'Профиль клиента');
         $smarty->assign('templateWebPath', TEMPLATE_WEB_PATH);
         $smarty->assign('infoMsg', $infoMsg);
         $smarty->assign('activeUser', $activeUser);
         $smarty->assign('role', $_SESSION['role']);
+        $smarty->assign('rsData', $rsData);
         loadTemplate($smarty, 'head');
         loadTemplate($smarty, 'profile');
         loadTemplate($smarty, 'footer');
@@ -116,7 +124,7 @@ function profileAction($smarty, $dbn, $params)
 }
 
 /**
- * профиль клиентв
+ * logout
  *
  * @param object $smarty
  * @param resource $dbn
@@ -130,4 +138,57 @@ function logoutAction($smarty, $dbn, $params)
     logout();
     header("Location: /user/login/");
     exit();
+}
+
+/**
+ * редактировать профиль клиентв
+ *
+ * @param object $smarty
+ * @param resource $dbn
+ * @param array $params
+ */
+function editAction($smarty, $dbn, $params)
+{
+    $infoMsg = !empty($_SESSION['infoMsg']) ? $_SESSION['infoMsg'] : '';
+    $activeUser = !empty($_SESSION['userId']) ? $_SESSION['userName'] : 'no user';
+
+    if ($_SESSION['role'] != 'Administrator') {
+        $_SESSION['infoMsg'] = "<div class='alert alert-danger'>У Вас нет прав для редактироваия</div>";
+        header("Location: /user/profile/");
+        exit();
+    } else {
+
+        if ($_POST) {
+            # clear info
+            $_SESSION['infoMsg'] = '';
+            # clear data
+            $data = clearData($_POST);
+
+            if (editUser($dbn, $data)) {
+                $_SESSION['infoMsg'] = "<div class='alert alert-success'>Данные отредактированы</div>";
+                header("Location: /user/profile/");
+                exit();
+            } else {
+                $_SESSION['infoMsg'] = "<div class='alert alert-danger'>Некорректные данные</div>";
+                header("Location: /user/profile/");
+                exit();
+            }
+        } else {
+
+            $rsData = getUserDataById($dbn, $params['id']);
+
+            $smarty->assign('pageTitle', 'Профиль клиента');
+            $smarty->assign('templateWebPath', TEMPLATE_WEB_PATH);
+            $smarty->assign('infoMsg', $infoMsg);
+            $smarty->assign('activeUser', $activeUser);
+            $smarty->assign('role', $_SESSION['role']);
+            $smarty->assign('user', $rsData);
+            loadTemplate($smarty, 'head');
+            loadTemplate($smarty, 'edit_client');
+            loadTemplate($smarty, 'footer');
+
+            $_SESSION['infoMsg'] = '';
+        }
+
+    }
 }

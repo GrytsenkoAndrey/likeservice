@@ -10,7 +10,6 @@ function showRegisterForm()
 {
     $('#registerForm').show();
     $('#loginForm').hide();
-    //$('#registerForm').fadeIn(1000);
 }
 
 /**
@@ -20,7 +19,6 @@ function showLoginForm()
 {
     $('#loginForm').show();
     $('#registerForm').hide();
-    //$('#loginForm').fadeIn(1000);
 }
 
 /**

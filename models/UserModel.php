@@ -104,3 +104,79 @@ function logout()
     session_destroy();
     setcookie(session_name(), '', time() - 3600);
 }
+
+/**
+ * выбираем данные всех пользователей
+ * @param resource $db
+ * @return array $data
+ */
+function selAllUsers($db): array
+{
+    $sql = "SELECT u.id, u.email, g.name AS role "
+        ."FROM clients AS u "
+        ."LEFT JOIN users_groups AS ug ON ug.user_id = u.id "
+        ."LEFT JOIN groups AS g ON g.id = ug.group_id "
+        ."WHERE g.name <> 'Administrator' "
+        ."ORDER BY u.id ASC";
+    $stmt = $db->query($sql);
+    $dat = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    $out = [];
+    $i = 0;
+    # формируем массив для выдачи
+    foreach ($dat as $item) {
+        $out[$i]['id'] = $item['id'];
+        $out[$i]['userName'] = $item['email'];
+        $out[$i]['role'] = $item['role'];
+        $i++;
+    }
+    return $out;
+}
+
+/**
+ * редактируем профиль клиента
+ * @param resource $db
+ * @param array $data
+ * @return bool
+ */
+function editUser($db, array $data): bool
+{
+    $sql = "SELECT u.email "
+        ."FROM clients AS u "
+        ."WHERE u.id = :id";
+    $stmt = $db->prepare($sql);
+    $stmt->execute([':id' => $data['id'], ]);
+    $dat = $stmt->fetch();
+d($dat);
+    if (count($dat) >= 1) {
+        $sql = "UPDATE clients SET email = :email, password = :password, age = :age WHERE id=:id";
+        $stmt = $db->prepare($sql);
+        $stmt->execute([
+            ':email' => $data['email'],
+            ':password' => password_hash($data['regpassword1'], PASSWORD_DEFAULT),
+            ':age' => $data['age'],
+            ':id' => $data['id'],
+        ]);
+        return true;
+    } else {
+        return false;
+    }
+}
+
+/**
+ * выбираем данные для редактирования профиля
+ *
+ * @param resource $db
+ * @return array $data
+ */
+function getUserDataById($db, int $id): array
+{
+    $sql = "SELECT id, email, age FROM clients WHERE id = :id";
+    $stmt = $db->prepare($sql);
+    $stmt->execute([':id' => $id]);
+
+    if ($row = $stmt->fetch()) {
+        return $row;
+    } else {
+        return [];
+    }
+}
