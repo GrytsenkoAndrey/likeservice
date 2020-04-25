@@ -21,23 +21,32 @@ function processAction($smarty, $dbn, $params)
 {
     //TODO
     // добавить проверку на существование лайка для такой страницы
-    $arrVote = [
+/*    $arrVote = [
         'client_id' => $_POST['client_id'],
         'site_name' => $_POST['site_name'],
         'page_title' => $_POST['page_title'],
     ];
 
-    $id = addNewLike($dbn, $arrVote);
+    $id = addNewLike($dbn, $arrVote);*/
 
-    $arrUser = [
+   /*$arrUser = [
         'ip' => $_POST['ip'],
         'post' => $_POST['post'],
         'city' => $_POST['city'],
         'country' => $_POST['country'],
         'like_id' => $id,
     ];
-    addNewVoteUser($dbn, $arrUser);
+    addNewVoteUser($dbn, $arrUser);*/
 
-    $k['qnt'] = getQuantityByLikeId($dbn, $id);
-    echo json_encode($k);
+    #$k['qnt'] = $id; //getQuantityByLikeId($dbn, $id);
+    #echo json_encode($k);
+
+    $arrUser = [
+        'ip' => '23.23.23.23',
+        'post' => '51927',
+        'city' => 'Piter',
+        'country' => 'UA',
+        'like_id' => 8,
+    ];
+    addNewVoteUser($dbn, $arrUser);
 }

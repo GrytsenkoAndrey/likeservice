@@ -17,7 +17,7 @@
 function addNewVoteUser($db, array $data)
 {
     $sql = "INSERT INTO users(`ip`, `post`, `city`, `country`, `like_id`) "
-        ."VALUES (:ip, :post, :city, :country, :like_id)";
+        ."VALUES(:ip, :post, :city, :country, :like_id)";
     $stmt = $db->prepare($sql);
     $stmt->execute([
         ':ip' => $data['ip'],
