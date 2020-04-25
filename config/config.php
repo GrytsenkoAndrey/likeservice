@@ -2,7 +2,8 @@
 /**
 * файл настроек
 */
-
+define('PATH_PREFIX', 'controllers/');
+define('PATH_POSTFIX', 'Controller.php');
 define('DB_USER', 'utest');
 define('DB_PASS', 'utestpass');
 define('HOST', 'localhost');
