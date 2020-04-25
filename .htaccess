@@ -1,0 +1,9 @@
+php_value session.gc_maxlifetime 900
+php_value session.gc_probability 100
+php_value output_buffering 0
+
+AddDefaultCharset utf-8
+
+RewriteEngine On
+RewriteBase /
+RewriteRule !\.(js|gif|png|jpeg|jpg|css)$ index.php
