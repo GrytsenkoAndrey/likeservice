@@ -25,7 +25,8 @@ function processAction($smarty, $dbn, $params)
     }
     $data = json_decode($_POST);
     d($data, 0);*/
-    $post = json_decode($_POST);
-    $data = isset($post['city']) ? $post['city'] : 'no';
-    echo json_decode($data);
+
+    $data = $_POST;
+    $k['qnt'] = 1;
+    echo json_encode($k);
 }
