@@ -38,7 +38,7 @@ function loginAction($smarty, $dbn, $params)
         $smarty->assign('templateWebPath', TEMPLATE_WEB_PATH);
         $smarty->assign('infoMsg', $infoMsg);
         loadTemplate($smarty, 'head');
-        loadTemplate($smarty, 'main_login');
+        loadTemplate($smarty, 'main_authreg');
         loadTemplate($smarty, 'footer');
 
         $_SESSION['infoMsg'] = '';
@@ -78,7 +78,7 @@ function regAction($smarty, $dbn, $params)
         $smarty->assign('infoMsg', $infoMsg);
         $smarty->assign('activeUser', $activeUser);
         loadTemplate($smarty, 'head');
-        loadTemplate($smarty, 'main_reg');
+        loadTemplate($smarty, 'main_authreg');
         loadTemplate($smarty, 'footer');
 
         $_SESSION['infoMsg'] = '';

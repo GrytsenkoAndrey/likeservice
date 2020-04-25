@@ -146,7 +146,7 @@ function editUser($db, array $data): bool
     $stmt = $db->prepare($sql);
     $stmt->execute([':id' => $data['id'], ]);
     $dat = $stmt->fetch();
-d($dat);
+
     if (count($dat) >= 1) {
         $sql = "UPDATE clients SET email = :email, password = :password, age = :age WHERE id=:id";
         $stmt = $db->prepare($sql);
