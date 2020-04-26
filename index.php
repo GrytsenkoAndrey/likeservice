@@ -4,6 +4,11 @@
  * User: APG
  * Date: 25.04.2020
  * Time: 17:45
+ *
+ * пароли для пользователей:
+ * u@u - 1
+ * k@k - 2
+ * p@p - 3
  */
 session_start();
 # config
