@@ -105,8 +105,10 @@ function profileAction($smarty, $dbn, $params)
 
         if ($_SESSION['role'] == 'Administrator') {
             $rsData = selAllUsers($dbn);
+            $userId = '';
         } else {
             //TODO select data about likes
+            $userId = $_SESSION['userId'];
             $rsData = [];
         }
         $smarty->assign('pageTitle', 'Профиль клиента');
@@ -115,6 +117,7 @@ function profileAction($smarty, $dbn, $params)
         $smarty->assign('activeUser', $activeUser);
         $smarty->assign('role', $_SESSION['role']);
         $smarty->assign('rsData', $rsData);
+        $smarty->assign('userId', $userId);
         loadTemplate($smarty, 'head');
         loadTemplate($smarty, 'profile');
         loadTemplate($smarty, 'footer');

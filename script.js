@@ -54,16 +54,20 @@ function dataPrepare(client_id)
     resData['page_title'] = pageTitle[0].innerHTML;
     resData['client_id'] = client_id;
 
-var my;
     $.ajax({
         url:'https://ipinfo.io',
         type:'post',
         dataType:'json'
     }).done(function(data) {
-        console.log(data);
-        my = JSON.stringify(data, 0, '  ');
+        //console.log(data);
+        //my = JSON.stringify(data, 0, '  ');
+        resData['ip'] = data['ip'];
+        resData['city'] = data['city'];
+        resData['country'] = data['country'];
+        resData['postal'] = data['postal'];
     });
-console.log(my);
+
+console.log(resData);
 
     $.ajax({
         type:'POST',
@@ -80,12 +84,3 @@ console.log(my);
         }
     })
 }
-/*
-$.ajax({
-    url:'http://freegeoip.net/json/'
-    type:'post',
-    dataType:'json'
-}).done(function(data) {
-    alert(data.ip);
-});
-*/

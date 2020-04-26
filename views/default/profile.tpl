@@ -29,10 +29,48 @@
                 {/if}
             {/if}
 
-            {if isset($button)}
+            {if isset($userId)}
+                <pre>
                 <code>
-                    {$button}
+                    function dataPrepare(client_id)
+                    {
+                    // page title
+                    var pageTitle = document.getElementsByTagName('title');
+                    // result
+                    var resData = {};
+                    resData['site_name'] = String(window.location);
+                    resData['page_title'] = pageTitle[0].innerHTML;
+                    resData['client_id'] = client_id;
+
+                    var my;
+                    $.ajax({
+                    url:'https://ipinfo.io',
+                    type:'post',
+                    dataType:'json'
+                    }).done(function(data) {
+                    console.log(data);
+                    my = JSON.stringify(data, 0, '  ');
+                    });
+                    console.log(my);
+
+                    $.ajax({
+                    type:'POST',
+                    async:true,
+                    url:'/like/process/',
+                    data:resData,
+                    dataType:'json',
+                    success: function(data) {
+                    console.log(data);
+                    $('#likeCnt').html(data['qnt']);
+                    },
+                    error: function() {
+                    console.log('error');
+                    }
+                    })
+                    }
+                    &lsaquo;a href="" onclick="dataPrepare({$userId}); return false;"&rsaquo;Like&lsaquo;/a&rsaquo;&lsaquo;span&rsaquo; id="likeCnt"&lsaquo;/span&rsaquo;
                 </code>
+                    <pre>
             {/if}
 
         </div>

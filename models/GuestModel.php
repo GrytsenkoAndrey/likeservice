@@ -35,3 +35,29 @@ function addNewVoteUser($db, array $data): int
         return -1;
     }
 }
+
+/**
+ * проверяем ставил ли этот пользователь лайк
+ *
+ * @param resource $db
+ * @param array $data
+ * @return int $status
+ */
+function checkGuestVote($db, array $data): int
+{
+    $sql = "SELECT u.id "
+        ."FROM users AS u "
+        ."LEFT JOIN votes AS v ON v.client_id = u.id "
+        ."WHERE v.site_name = :site_name AND v.page_title = :page_title ";
+    $stmt = $db->prepare($sql);
+    $stmt->execute([
+        ':site_name' => $data['site_name'],
+        ':page_title' => $data['page_title'],
+    ]);
+
+    if ($row = $stmt->fetch()) {
+        return $row['id'];
+    } else {
+        return -1;
+    }
+}
