@@ -107,9 +107,9 @@ function profileAction($smarty, $dbn, $params)
             $rsData = selAllUsers($dbn);
             $userId = '';
         } else {
-            //TODO select data about likes
             $userId = $_SESSION['userId'];
             $rsData = [];
+            $rsVotes = selClientVotesData($dbn, $_SESSION['userId']);
         }
         $smarty->assign('pageTitle', 'Профиль клиента');
         $smarty->assign('templateWebPath', TEMPLATE_WEB_PATH);
@@ -118,6 +118,7 @@ function profileAction($smarty, $dbn, $params)
         $smarty->assign('role', $_SESSION['role']);
         $smarty->assign('rsData', $rsData);
         $smarty->assign('userId', $userId);
+        $smarty->assign('rsVotes', $rsVotes);
         loadTemplate($smarty, 'head');
         loadTemplate($smarty, 'profile');
         loadTemplate($smarty, 'footer');

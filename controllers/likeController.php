@@ -55,9 +55,9 @@ function detailAction($smarty, $dbn, $params)
     $infoMsg = !empty($_SESSION['infoMsg']) ? $_SESSION['infoMsg'] : '';
     $activeUser = !empty($_SESSION['userId']) ? $_SESSION['userName'] : 'no user';
 
-    if ($_SESSION['role'] != 'Administrator') {
+    if (!isset($_SESSION['userId'])) {
         $_SESSION['infoMsg'] = "<div class='alert alert-danger'>У Вас нет прав для просмотра</div>";
-        header("Location: /user/profile/");
+        header("Location: /user/login/");
         exit();
     } else {
 

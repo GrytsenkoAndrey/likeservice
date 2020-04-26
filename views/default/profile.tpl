@@ -77,6 +77,28 @@
                     <pre>
             {/if}
 
+            {if isset($rsVotes)}
+                {if count($rsVotes) > 0}
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th scope="col">E-mail</th>
+                            <th scope="col">Page info</th>
+                            <th scope="col">Quantity</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {foreach $rsVotes as $item}
+                            <tr>
+                                <td>{$item['email']}</td>
+                                <td><a href="/like/detail/id/{$item['id']}/" title="Like details">{$item['page_info']}</a></td>
+                                <td>{$item['quantity']}</td>
+                            </tr>
+                        {/foreach}
+                        </tbody>
+                    </table>
+                {/if}
+            {/if}
         </div>
     </section>
 </main>
