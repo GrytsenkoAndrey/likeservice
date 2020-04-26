@@ -9,6 +9,42 @@
 # работа с таблицей лайков
 
 /**
+ * проверка записи
+ *
+ * @param resource $db
+ * @param array $data
+ * @return int $id
+ */
+function checkVote($db, array $data): int
+{
+    $sql = "SELECT id FROM votes WHERE site_name = :site_name AND page_title = :page_title ";
+    $stmt = $db->prepare($sql);
+    $stmt->execute([
+        ':site_name' => $data['site_name'],
+        ':page_title' => $data['page_title'],
+    ]);
+
+    if ($row = $stmt->fetch()) {
+        return $row['id'];
+    } else {
+        return -1;
+    }
+}
+
+/**
+ * обновление количества лайков
+ *
+ * @param resource $db
+ * @param  int $id
+ */
+function updateVoteById($db, int $id)
+{
+    $sql = "UPDATE votes SET quantity = quantity + 1 WHERE id = :id ";
+    $stmt = $db->prepare($sql);
+    $stmt->execute([':id' => $id]);
+}
+
+/**
  * добавление информации в таблицу
  *
  * @param resource $db

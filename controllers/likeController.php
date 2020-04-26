@@ -21,13 +21,18 @@ function processAction($smarty, $dbn, $params)
 {
     //TODO
     // добавить проверку на существование лайка для такой страницы
-/*    $arrVote = [
-        'client_id' => $_POST['client_id'],
-        'site_name' => $_POST['site_name'],
-        'page_title' => $_POST['page_title'],
-    ];
+    $voteId = checkVote($dbn, $_POST);
+    if ( $voteId != -1) {
+        updateVoteById($dbn, $voteId);
+    } else {
+        $arrVote = [
+            'client_id' => $_POST['client_id'],
+            'site_name' => $_POST['site_name'],
+            'page_title' => $_POST['page_title'],
+        ];
 
-    $id = addNewLike($dbn, $arrVote);*/
+        $voteId = addNewLike($dbn, $arrVote);
+    }
 
    /*$arrUser = [
         'ip' => $_POST['ip'],
@@ -38,17 +43,8 @@ function processAction($smarty, $dbn, $params)
     ];
     addNewVoteUser($dbn, $arrUser);*/
 
-    #$k['qnt'] = $id; //getQuantityByLikeId($dbn, $id);
-    #echo json_encode($k);
-
-    $arrUser = [
-        'ip' => '23.23.23.23',
-        'post' => '51927',
-        'city' => 'Piter',
-        'country' => 'UA',
-        'like_id' => 8,
-    ];
-    addNewVoteUser($dbn, $arrUser);
+    $k['qnt'] = getQuantityByLikeId($dbn, $voteId);
+    echo json_encode($k);
 }
 
 /**
