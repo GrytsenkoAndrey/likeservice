@@ -67,8 +67,6 @@ function dataPrepare(client_id)
         resData['postal'] = data['postal'];
     });
 
-console.log(resData);
-
     $.ajax({
         type:'POST',
         async:true,
