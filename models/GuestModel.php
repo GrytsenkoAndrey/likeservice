@@ -28,3 +28,4 @@ function addNewVoteUser($db, array $data)
     ]);
 
 }
+

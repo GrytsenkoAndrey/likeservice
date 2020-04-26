@@ -238,14 +238,14 @@ function dataAction($smarty, $dbn, $params)
     $activeUser = !empty($_SESSION['userId']) ? $_SESSION['userName'] : 'no user';
 
     if ($_SESSION['role'] != 'Administrator') {
-        $_SESSION['infoMsg'] = "<div class='alert alert-danger'>У Вас нет прав для редактироваия</div>";
+        $_SESSION['infoMsg'] = "<div class='alert alert-danger'>У Вас нет прав для просмотра</div>";
         header("Location: /user/profile/");
         exit();
     } else {
 
         $rsData = selClientVotesData($dbn, $params['id']);
 
-        $smarty->assign('pageTitle', 'Профиль клиента');
+        $smarty->assign('pageTitle', 'Детали Like для клиента ID ' . $params['id']);
         $smarty->assign('templateWebPath', TEMPLATE_WEB_PATH);
         $smarty->assign('infoMsg', $infoMsg);
         $smarty->assign('activeUser', $activeUser);

@@ -9,17 +9,21 @@
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th scope="col">E-mail</th>
-                    <th scope="col">Page info</th>
-                    <th scope="col">Quantity</th>
+                    <th scope="col">ID</th>
+                    <th scope="col">IP</th>
+                    <th scope="col">Postal</th>
+                    <th scope="col">City</th>
+                    <th scope="col">Country</th>
                 </tr>
                 </thead>
                 <tbody>
                 {foreach $rsData as $item}
                 <tr>
-                    <td>{$item['email']}</td>
-                    <td><a href="/like/detail/id/{$item['id']}/" title="Like details">{$item['page_info']}</a></td>
-                    <td>{$item['quantity']}</td>
+                    <td>{$item['id']}</td>
+                    <td>{$item['ip']}</td>
+                    <td>{$item['post']}</td>
+                    <td>{$item['city']}</td>
+                    <td>{$item['country']}</td>
                 </tr>
                 {/foreach}
                 </tbody>

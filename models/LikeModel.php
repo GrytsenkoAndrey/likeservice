@@ -48,3 +48,26 @@ function getQuantityByLikeId($db, int $id): int
         return 0;
     }
 }
+
+/**
+ * получаем данные о тех, кто поставил лайк для записи из таблицы Лайк
+ * по id записи лайка
+ *
+ * @param resource $db
+ * @param int $id
+ * @return array $data
+ */
+function selGuestsForLike($db, int $id): array
+{
+    $sql = "SELECT u.id, u.ip, u.post, u.city, u.country "
+         ."FROM users AS u "
+         ."WHERE like_id = :id ";
+    $stmt = $db->prepare($sql);
+    $stmt->execute([':id' => $id,]);
+
+    if ($rows = $stmt->fetchAll()) {
+        return $rows;
+    } else {
+        return [];
+    }
+}

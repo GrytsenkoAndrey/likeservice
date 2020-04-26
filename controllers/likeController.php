@@ -50,3 +50,37 @@ function processAction($smarty, $dbn, $params)
     ];
     addNewVoteUser($dbn, $arrUser);
 }
+
+/**
+ * просмотр данных Like
+ *
+ * @param object $smarty
+ * @param resource $dbn
+ * @param array $params
+ */
+function detailAction($smarty, $dbn, $params)
+{
+    $infoMsg = !empty($_SESSION['infoMsg']) ? $_SESSION['infoMsg'] : '';
+    $activeUser = !empty($_SESSION['userId']) ? $_SESSION['userName'] : 'no user';
+
+    if ($_SESSION['role'] != 'Administrator') {
+        $_SESSION['infoMsg'] = "<div class='alert alert-danger'>У Вас нет прав для просмотра</div>";
+        header("Location: /user/profile/");
+        exit();
+    } else {
+
+        $rsData = selGuestsForLike($dbn, $params['id']);
+
+        $smarty->assign('pageTitle', 'Детали Like c ID' . $params['id']);
+        $smarty->assign('templateWebPath', TEMPLATE_WEB_PATH);
+        $smarty->assign('infoMsg', $infoMsg);
+        $smarty->assign('activeUser', $activeUser);
+        $smarty->assign('role', $_SESSION['role']);
+        $smarty->assign('rsData', $rsData);
+        loadTemplate($smarty, 'head');
+        loadTemplate($smarty, 'guestdetail');
+        loadTemplate($smarty, 'footer');
+
+        $_SESSION['infoMsg'] = '';
+    }
+}
