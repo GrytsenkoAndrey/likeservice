@@ -19,12 +19,18 @@ require_once 'models/GuestModel.php';
  */
 function processAction($smarty, $dbn, $params)
 {
+    $userId = checkGuestVote($dbn, $_POST);
     $voteId = checkVote($dbn, $_POST);
-    if ( $voteId != -1) {
-        updateVoteById($dbn, $voteId);
-    } else {
-        $voteId = addNewLike($dbn, $_POST);
+    # если нет пользователя который ставил лайк для этой статьи
+    if ($userId == -1){
+        # проверяем есть ли уже лайки для этой статьи
+        if ( $voteId != -1) {
+            updateVoteById($dbn, $voteId);
+        } else {
+            $voteId = addNewLike($dbn, $_POST);
+        }
     }
+
     $k['qnt'] = getQuantityByLikeId($dbn, $voteId);
 
 
@@ -32,12 +38,7 @@ function processAction($smarty, $dbn, $params)
     $data['like_id'] = (int)$voteId;
 
     # данные о местоположении пользователя видны при отладке в консоли, но не смог передать их POST'om
-    # для запрета двойного нажатия необходимо проверить существование пользователя с
-    // - IP адрес
-    // - ID поста
-    // если такой пользователь уже существует, значит он уже сделал лайк этой страницы
-
-   /* $u = addNewVoteUser($dbn, $data);*/
+    /* $u = addNewVoteUser($dbn, $data);*/
 
     echo json_encode($k);
 }
