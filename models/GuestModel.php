@@ -13,19 +13,25 @@
  *
  * @param resource $db
  * @param array $data
+ * @return int $status
  */
-function addNewVoteUser($db, array $data)
+function addNewVoteUser($db, array $data): int
 {
-    $sql = "INSERT INTO users(`ip`, `post`, `city`, `country`, `like_id`) "
-        ."VALUES(:ip, :post, :city, :country, :like_id)";
+    $data = clearData($data);
+
+    $sql = "INSERT INTO users VALUES (null, ?, ?, ?, ?, ? )";
     $stmt = $db->prepare($sql);
-    $stmt->execute([
-        ':ip' => $data['ip'],
-        ':post' => $data['post'],
-        ':city' => $data['city'],
-        ':country' => $data['country'],
-        ':like_id' => $data['like_id'],
-    ]);
+    $stmt->bindValue(1, $data['ip'], \PDO::PARAM_STR);
+    $stmt->bindValue(2, $data['postal'], \PDO::PARAM_STR);
+    $stmt->bindValue(3, $data['city'], \PDO::PARAM_STR);
+    $stmt->bindValue(4, $data['country'], \PDO::PARAM_STR);
+    $stmt->bindValue(5, $data['like_id'], \PDO::PARAM_INT);
 
+    $stmt->execute();
+
+    if ($db->lastInsertId() > 0) {
+        return $db->lastInsertId();
+    } else {
+        return -1;
+    }
 }
-

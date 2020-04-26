@@ -46,27 +46,24 @@ function comparePass()
  */
 function dataPrepare(client_id)
 {
-    // page address
-    var pageUrl = String(window.location);
     // page title
     var pageTitle = document.getElementsByTagName('title');
-    // client id
-    var clientId = client_id;
     // result
     var resData = {};
-    resData['site_name'] = pageUrl;
+    resData['site_name'] = String(window.location);
     resData['page_title'] = pageTitle[0].innerHTML;
-    resData['client_id'] = clientId;
+    resData['client_id'] = client_id;
 
-    $.getJSON('https://ipinfo.io', function(data){
-        //console.log(data)
-        resData['ip'] = data['ip'];
-        resData['city'] = data['city'];
-        resData['country'] = data['country'];
-        resData['post'] = data['postal'];
+var my;
+    $.ajax({
+        url:'https://ipinfo.io',
+        type:'post',
+        dataType:'json'
+    }).done(function(data) {
+        console.log(data);
+        my = JSON.stringify(data, 0, '  ');
     });
-
-    console.log(resData);
+console.log(my);
 
     $.ajax({
         type:'POST',
@@ -76,6 +73,7 @@ function dataPrepare(client_id)
         dataType:'json',
         success: function(data) {
             console.log(data);
+            $('#likeCnt').html(data['qnt']);
         },
         error: function() {
             console.log('error');
@@ -85,7 +83,7 @@ function dataPrepare(client_id)
 /*
 $.ajax({
     url:'http://freegeoip.net/json/'
-    type:'get',
+    type:'post',
     dataType:'json'
 }).done(function(data) {
     alert(data.ip);

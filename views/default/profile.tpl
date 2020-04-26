@@ -29,7 +29,11 @@
                 {/if}
             {/if}
 
-
+            {if isset($button)}
+                <code>
+                    {$button}
+                </code>
+            {/if}
 
         </div>
     </section>
