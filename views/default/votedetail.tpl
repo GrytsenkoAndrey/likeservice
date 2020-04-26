@@ -9,19 +9,17 @@
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th scope="col"># ID</th>
                     <th scope="col">E-mail</th>
-                    <th scope="col">Role</th>
-                    <th scope="col">Edit</th>
+                    <th scope="col">Page info</th>
+                    <th scope="col">Quantity</th>
                 </tr>
                 </thead>
                 <tbody>
                 {foreach $rsData as $item}
                 <tr>
-                    <th scope="row">{$item['id']}</th>
-                    <td><a href="/user/data/id/{$item['id']}/" title="Details">{$item['userName']}</a></td>
-                    <td>{$item['role']}</td>
-                    <td><a href="/user/edit/id/{$item['id']}/" title="Edit {$item['userName']}">Edit</a></td>
+                    <td>{$item['email']}</td>
+                    <td><a href="/like/details/id/{$item['id']}/" title="Like details">{$item['page_info']}</a></td>
+                    <td>{$item['quantity']}</td>
                 </tr>
                 {/foreach}
                 </tbody>

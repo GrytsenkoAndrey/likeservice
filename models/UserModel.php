@@ -166,6 +166,7 @@ function editUser($db, array $data): bool
  * выбираем данные для редактирования профиля
  *
  * @param resource $db
+ * @param int $id
  * @return array $data
  */
 function getUserDataById($db, int $id): array
@@ -176,6 +177,30 @@ function getUserDataById($db, int $id): array
 
     if ($row = $stmt->fetch()) {
         return $row;
+    } else {
+        return [];
+    }
+}
+
+/**
+ * получаем данные о лайках для клиента
+ *
+ * @param resource $db
+ * @param int $id
+ * @return array $data
+ */
+function selClientVotesData($db, int $id): array
+{
+    $sql = "SELECT c.email, CONCAT(v.site_name, ' ', v.page_title) AS page_info, v.id, v.quantity "
+        ."FROM votes AS v "
+        ."LEFT JOIN clients AS c ON c.id = v.client_id "
+        ."WHERE client_id = :id "
+        ."ORDER BY quantity DESC ";
+    $stmt = $db->prepare($sql);
+    $stmt->execute([':id' => $id,]);
+
+    if ($rows = $stmt->fetchAll()) {
+        return $rows;
     } else {
         return [];
     }
